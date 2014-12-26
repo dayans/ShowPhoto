@@ -9,4 +9,5 @@
 	<input type="radio" name="identity" value="user">用户
 	<input type="radio" name="identity" value="admin">管理员
 </form>
+<a href="/register">注册</a>
 </html>

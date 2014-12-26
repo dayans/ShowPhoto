@@ -18,13 +18,14 @@ Route::get('/', function()
 });
 
 Route::get('/login', 'HomeController@login');
-Route::
+Route::get('/register/{er?}', 'HomeController@register');
 
 Route::get('user/display', 'ShowController@userDisplay');
 Route::get('admin/display', 'ShowController@adminDisplay');
 Route::get('/inform','ShowController@inform');
 
 Route::post('login/check', 'UpdateController@check');
+Route::post('registerpost', 'UpdateController@registerpost');
 Route::post('upload', 'UpdateController@upload');
 Route::get('/good/{id}', 'UpdateController@good');
 Route::post('/comment', 'UpdateController@comment');

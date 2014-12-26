@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Redirect;
 class UpdateController extends BaseController {
     
     public function check()
@@ -26,7 +27,7 @@ class UpdateController extends BaseController {
                 }
             }
         } else {
-            return View::make('/warning')->with(array('message' => '请检查您的输入是否错误', 'route' => '/login'));
+            return View::make('warning')->with(array('message' => '请检查您的输入是否错误', 'route' => '/login'));
         }
     }
     
@@ -44,15 +45,15 @@ class UpdateController extends BaseController {
     
                 Photo::insert($data);
     
-                return View::make('warning')->with(array('message' => '上传成功', 'route' => 'user/display'));
+                return View::make('/warning')->with(array('message' => '上传成功', 'route' => 'user/display'));
             } else {
-                return View::make('warning')->with(array('message' => '图片上传发生错误', 'route' => 'user/display'));
+                return View::make('/warning')->with(array('message' => '图片上传发生错误', 'route' => 'user/display'));
             }
         } else {
             if (!Input::hasFile('img')) {
-                return View::make('warning')->with(array('message' => '图片上传发生错误', 'route' => 'user/display'));
+                return View::make('/warning')->with(array('message' => '图片上传发生错误', 'route' => 'user/display'));
             } else {
-                return View::make('warning')->with(array('message' => '输入超过最大长度', 'route' => 'user/display'));
+                return View::make('/warning')->with(array('message' => '输入超过最大长度', 'route' => 'user/display'));
             }
         }
     }
@@ -70,7 +71,7 @@ class UpdateController extends BaseController {
     {
         $com = Input::all();
         if (strlen(Input::get('comment')) > 10) {
-            return View::make('warning')->with(array('message' => '输入超过最大长度', 'route' => 'user/display'));
+            return View::make('/warning')->with(array('message' => '输入超过最大长度', 'route' => 'user/display'));
         }
         Comment::select($com);
     
@@ -90,5 +91,18 @@ class UpdateController extends BaseController {
         ->update(array('name' => $data['name'], 'password' => $data['password']));
     
         return Redirect::to('/inform');
+    }
+    
+    public function registerpost()
+    {
+        $data = Input::all();
+        $er = User::registerError($data);
+        $v = $er['v'];
+        if($v) {
+            return Redirect::to('/register')->with('er', $er);
+        }
+        
+        $data = User::test($data);
+        
     }
 }

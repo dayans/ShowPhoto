@@ -25,5 +25,12 @@ class HomeController extends BaseController {
 	    return View::make('login');
 	}
 	
+	public function register($er = array())
+	{
+	    if(Session::has('er')) {
+	        $er = Session::get('er', $er);
+	    }
+	    return View::make('register')->with('er', $er);
+	}
 
 }
