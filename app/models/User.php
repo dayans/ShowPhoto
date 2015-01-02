@@ -57,7 +57,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	    if(empty($data['repassword'])) {
 	        $er['repassword'] = '确认密码不能为空';
 	    }
-	    if(!empty($data['password']) && !empty($data['repassword']))) {
+	    if(!empty($data['password']) && !empty($data['repassword'])) {
 	        if($data['password'] != $data['repassword']) {
 	            $er['v'] = 1;
 	            $er['repassword'] = '确认密码与密码不一致';
