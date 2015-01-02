@@ -23,11 +23,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password', 'remember_token');
 	
-	/* public static $rule = array(
-	    'name' => 'required',
-	    'password' => 'required',   
-	); */
-
+	/*
+	 * yans add
+	 */
 	public static function test($data)
 	{
 	    foreach($data as $key=>$val) {
@@ -59,10 +57,25 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	    if(empty($data['repassword'])) {
 	        $er['repassword'] = '确认密码不能为空';
 	    }
-	    if(!empty($data['password'] && !empty($data['repassword']))) {
+	    if(!empty($data['password']) && !empty($data['repassword']))) {
 	        if($data['password'] != $data['repassword']) {
 	            $er['v'] = 1;
 	            $er['repassword'] = '确认密码与密码不一致';
+	        }
+	    }
+	    return $er;
+	}
+	
+	public static function rules($data) 
+	{
+	    $er['v'] = 0;
+	    foreach($data as $key=>$value) {
+	        if($key == 'name') {
+	            $v = preg_match('/[a-zA-Z0-9\x{4E00}-\x{9FFF}]/u', $value);
+	            if(!$v) {
+	                $er['v'] = 1;
+	                $er['name'] = '姓名格式不符'; 
+	            }
 	        }
 	    }
 	    return $er;

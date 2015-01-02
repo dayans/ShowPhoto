@@ -96,13 +96,18 @@ class UpdateController extends BaseController {
     public function registerpost()
     {
         $data = Input::all();
+        $data = User::test($data);
         $er = User::registerError($data);
         $v = $er['v'];
         if($v) {
             return Redirect::to('/register')->with('er', $er);
         }
-        
-        $data = User::test($data);
+        $er = User::rules($data);
+        $v = $er['v'];
+        if($v) {
+            return Redirect::to('/register')->with('er', $er);
+        }
+
         
     }
 }
