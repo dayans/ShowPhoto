@@ -108,6 +108,8 @@ class UpdateController extends BaseController {
             return Redirect::to('/register')->with('er', $er);
         }
 
+        Customer::register($data);
+        return View::make('/login');
         
     }
 }

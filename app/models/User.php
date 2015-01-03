@@ -66,18 +66,26 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	    return $er;
 	}
 	
-	public static function rules($data) 
-	{
-	    $er['v'] = 0;
-	    foreach($data as $key=>$value) {
-	        if($key == 'name') {
-	            $v = preg_match('/[a-zA-Z0-9\x{4E00}-\x{9FFF}]/u', $value);
-	            if(!$v) {
-	                $er['v'] = 1;
-	                $er['name'] = '姓名格式不符'; 
-	            }
-	        }
-	    }
-	    return $er;
-	}
+	public static function rules($data)
+    {
+        $er['v'] = 0;
+        foreach ($data as $key => $value) {
+            if($key == 'name') {
+                $v = preg_match('/\w/i', $value);
+                if (!$v) {
+                    $er['v'] = 1;
+                    $er['name'] = '姓名格式不符';
+                }
+            }
+            if($key == 'email') {
+                $v = preg_match('/^[\w\.]+@\w+\.\w+$/i', $value);
+                if (!$v) {
+                    $er['v'] = 1;
+                    $er['email'] = 'email格式不符';
+                }
+            }
+        }
+        return $er;
+    }
+
 }
